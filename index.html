@@ -6,7 +6,7 @@
     <meta name="description" content="Posta Serrana. Alfajores artesanales, dulces y productos regionales elaborados con amor en las sierras.">
     <title>Posta Serrana | Especialidades Artesanales</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* Paleta de colores */
@@ -33,10 +33,20 @@
             border-bottom: 2px solid #F0E6D2; z-index: 1000; transition: padding 0.3s;
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo { font-family: var(--font-title); font-size: 1.8rem; color: var(--choco-dark); text-decoration: none; font-weight: 600; }
+        .logo { font-family: var(--font-title); font-size: 1.8rem; color: var(--choco-dark); text-decoration: none; font-weight: 600; z-index: 1001; }
+        
         .nav-links { display: flex; list-style: none; gap: 2rem; }
         .nav-links a { text-decoration: none; color: var(--choco-dark); font-weight: 500; font-size: 0.95rem; transition: color 0.3s; }
         .nav-links a:hover { color: var(--caramel); }
+
+        /* Menú Hamburguesa (Oculto en PC) */
+        .menu-toggle {
+            display: none; flex-direction: column; cursor: pointer; gap: 6px; z-index: 1001;
+        }
+        .menu-toggle .bar {
+            width: 30px; height: 3px; background-color: var(--choco-dark); border-radius: 3px;
+            transition: all 0.3s ease-in-out;
+        }
 
         /* Hero Section */
         .hero-split {
@@ -107,7 +117,7 @@
         .map-box iframe { width: 100%; height: 100%; border: none; }
 
         /* Footer y Redes Sociales */
-        footer { background-color: var(--choco-dark); color: #ddd; padding: 50px 0 40px; text-align: center; }
+        footer { background-color: var(--choco-dark); color: #ddd; padding: 50px 0 30px; text-align: center; }
         footer .logo { color: var(--caramel); font-size: 2rem; display: block; margin-bottom: 10px; }
         footer p { font-size: 0.9rem; margin-bottom: 20px; }
         
@@ -119,6 +129,37 @@
         }
         .social-links a:hover { background-color: var(--caramel); transform: translateY(-5px); border-color: var(--caramel); }
         .social-links svg { width: 22px; height: 22px; fill: currentColor; }
+
+        /* FIRMA DEL DESARROLLADOR - SIERRAS WEB (SOLO TEXTO) */
+        .agency-credit {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .sierras-logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: #FFFFFF; /* Sierras en blanco porque el footer es oscuro */
+            letter-spacing: -0.5px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .sierras-logo-text span {
+            color: #0284C7; /* Azul Sierras Web */
+        }
+        
+        .sierras-logo-text:hover {
+            opacity: 0.8;
+        }
 
         /* Botón Flotante WA */
         .wa-float {
@@ -135,7 +176,31 @@
             .hero-img-box { min-height: 400px; border-bottom-left-radius: 0; }
             .hero-text-box h1 { font-size: 3rem; }
             .location-wrapper { flex-direction: column; }
-            .nav-links { display: none; }
+            
+            /* --- ESTILOS DEL MENÚ MÓVIL --- */
+            .menu-toggle { display: flex; }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: left 0.4s ease;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.5rem; }
+            
+            /* Animación de la X */
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+            
+            .agency-credit { flex-direction: column; gap: 5px; }
         }
     </style>
 </head>
@@ -144,10 +209,17 @@
     <nav class="navbar" id="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">Posta Serrana</a>
-            <ul class="nav-links">
-                <li><a href="#catalogo">Nuestros Productos</a></li>
-                <li><a href="#galeria">Elaboración</a></li>
-                <li><a href="#ubicacion">Ubicación</a></li>
+            
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#catalogo" class="nav-link">Nuestros Productos</a></li>
+                <li><a href="#galeria" class="nav-link">Elaboración</a></li>
+                <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
             </ul>
         </div>
     </nav>
@@ -235,7 +307,7 @@
             </div>
         </section>
 
-        <section id="galeria" class="section bg-light" style="background-color: var(--white);">
+        <section id="galeria" class="section" style="background-color: var(--white);">
             <div class="container">
                 <div class="section-header">
                     <p>Mirá cómo trabajamos</p>
@@ -295,6 +367,14 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
                 </a>
             </div>
+
+            <div class="agency-credit">
+                <span>Desarrollado por</span>
+                <a href="https://www.sierrasweb.com.ar/" target="_blank" class="sierras-logo-text">
+                    Sierras<span>Web</span>
+                </a>
+            </div>
+
         </div>
     </footer>
 
@@ -305,6 +385,7 @@
     </a>
 
     <script>
+        // Sombra de Navbar
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 20) {
@@ -312,6 +393,25 @@
             } else {
                 navbar.style.boxShadow = 'none';
             }
+        });
+
+        // --- LÓGICA DEL MENÚ MÓVIL (Hamburguesa) ---
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = document.querySelectorAll('.nav-link');
+
+        // Abrir/Cerrar al tocar la hamburguesa
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Cerrar el menú automáticamente al tocar un enlace
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuToggle.classList.remove('is-active');
+                navLinks.classList.remove('active');
+            });
         });
     </script>
 </body>
